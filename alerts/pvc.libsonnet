@@ -1,6 +1,6 @@
 {
   prometheusAlerts+:: {
-    groups+: [
+    groups+: if $._config.isKubernetesCephDeployment then [
       {
         name: 'persistent-volume-alert.rules',
         rules: [
@@ -38,6 +38,6 @@
           },
         ],
       },
-    ],
+    ] else [],
   },
 }

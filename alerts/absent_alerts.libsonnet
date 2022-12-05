@@ -6,9 +6,11 @@
         rules: [
           {
             alert: 'CephMgrIsAbsent',
+            local mgrAbsentQueryBase = "(up{%(cephExporterSelector)s} == 0 or absent(up{%(cephExporterSelector)s}))" % $._config,
+            local mgrAbsentQuery = if $._config.isKubernetesCephDeployment then 'label_replace(%(mgrAbsentQueryBase)s, "namespace", "openshift-storage", "", "")' % mgrAbsentQueryBase else mgrAbsentQueryBase,
             expr: |||
-              label_replace((up{%(cephExporterSelector)s} == 0 or absent(up{%(cephExporterSelector)s})), "namespace", "openshift-storage", "", "")
-            ||| % $._config,
+              %(mgrAbsentQuery)s
+            ||| % mgrAbsentQuery,
             'for': $._config.mgrIsAbsentAlertTime,
             labels: {
               severity: 'critical',
@@ -20,10 +22,11 @@
               severity_level: 'critical',
             },
           },
+          (if $._config.isKubernetesCephDeployment then
           {
             alert: 'CephMgrIsMissingReplicas',
             expr: |||
-              sum(kube_deployment_spec_replicas{deployment=~"rook-ceph-mgr-.*"}) by (namespace) < %(cephMgrCount)d
+              sum(kube_deployment_spec_replicas{deployment=~"rook-ceph-mgr-.*"}) by (%(cephAggregationLabels)s) < %(cephMgrCount)d
             ||| % $._config,
             'for': $._config.mgrMissingReplicasAlertTime,
             labels: {
@@ -35,7 +38,7 @@
               storage_type: $._config.storageType,
               severity_level: 'warning',
             },
-          },
+          }),
         ],
       },
       {
@@ -44,7 +47,7 @@
           {
             alert: 'CephMdsMissingReplicas',
             expr: |||
-              sum(ceph_mds_metadata{%(cephExporterSelector)s} == 1) by (namespace) < %(cephMdsCount)d
+              sum(ceph_mds_metadata{%(cephExporterSelector)s} == 1) by (%(cephAggregationLabels)s) < %(cephMdsCount)d
             ||| % $._config,
             'for': $._config.mdsMissingReplicasAlertTime,
             labels: {

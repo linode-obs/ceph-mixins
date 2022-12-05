@@ -7,8 +7,8 @@
           {
             alert: 'CephMonQuorumAtRisk',
             expr: |||
-              count(ceph_mon_quorum_status{%s} == 1) by (namespace) <= (floor(count(ceph_mon_metadata{%s}) by (namespace) / 2) + 1)
-            ||| % [$._config.cephExporterSelector, $._config.cephExporterSelector],
+              count(ceph_mon_quorum_status{%(cephExporterSelector)s} == 1) by (%(cephAggregationLabels)s) <= (floor(count(ceph_mon_metadata{%(cephExporterSelector)s}) by (%(cephAggregationLabels)s) / 2) + 1)
+            ||| % $._config,
             'for': $._config.monQuorumAlertTime,
             labels: {
               severity: 'critical',
@@ -20,11 +20,12 @@
               severity_level: 'error',
             },
           },
+          (if $._config.isKubernetesCephDeployment then
           {
             alert: 'CephMonQuorumLost',
             expr: |||
-              count(kube_pod_status_phase{pod=~"rook-ceph-mon-.*", phase=~"Running|running"} == 1) by (namespace) < 2
-            |||,
+              count(kube_pod_status_phase{pod=~"rook-ceph-mon-.*", phase=~"Running|running"} == 1) by (%(cephAggregationLabels)s) < 2
+            ||| % $._config,
             'for': $._config.monQuorumLostTime,
             labels: {
               severity: 'critical',
@@ -35,7 +36,7 @@
               storage_type: $._config.storageType,
               severity_level: 'critical',
             },
-          },
+          }),
           {
             alert: 'CephMonHighNumberOfLeaderChanges',
             expr: |||

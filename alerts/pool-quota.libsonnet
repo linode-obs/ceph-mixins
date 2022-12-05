@@ -7,8 +7,8 @@
           {
             alert: 'CephPoolQuotaBytesNearExhaustion',
             expr: |||
-              (ceph_pool_stored_raw * on (pool_id) group_left(name)ceph_pool_metadata) / ((ceph_pool_quota_bytes * on (pool_id) group_left(name)ceph_pool_metadata) > 0) > 0.70
-            |||,
+              (ceph_pool_stored_raw{%(cephExporterSelector)s} * on (pool_id) group_left(name)ceph_pool_metadata{%(cephExporterSelector)s}) / ((ceph_pool_quota_bytes{%(cephExporterSelector)s} * on (pool_id) group_left(name)ceph_pool_metadata{%(cephExporterSelector)s}) > 0) > 0.70
+            ||| % $._config,
             'for': $._config.poolQuotaUtilizationAlertTime,
             labels: {
               severity: 'warning',
@@ -23,8 +23,8 @@
           {
             alert: 'CephPoolQuotaBytesCriticallyExhausted',
             expr: |||
-              (ceph_pool_stored_raw * on (pool_id) group_left(name)ceph_pool_metadata) / ((ceph_pool_quota_bytes * on (pool_id) group_left(name)ceph_pool_metadata) > 0) > 0.90
-            |||,
+              (ceph_pool_stored_raw{%(cephExporterSelector)s} * on (pool_id) group_left(name)ceph_pool_metadata{%(cephExporterSelector)s}) / ((ceph_pool_quota_bytes{%(cephExporterSelector)s} * on (pool_id) group_left(name)ceph_pool_metadata{%(cephExporterSelector)s}) > 0) > 0.90
+            ||| % $._config,
             'for': $._config.poolQuotaUtilizationAlertTime,
             labels: {
               severity: 'critical',

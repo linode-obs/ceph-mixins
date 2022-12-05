@@ -4,6 +4,7 @@
       {
         name: 'ceph-node-alert.rules',
         rules: [
+          (if $._config.isKubernetesCephDeployment then
           {
             alert: 'CephNodeDown',
             expr: |||
@@ -19,7 +20,7 @@
               storage_type: $._config.storageType,
               severity_level: 'error',
             },
-          },
+          }),
         ],
       },
     ],

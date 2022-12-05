@@ -7,7 +7,7 @@
           {
             alert: 'CephOSDCriticallyFull',
             expr: |||
-              (ceph_osd_metadata * on (ceph_daemon) group_right(device_class,hostname) (ceph_osd_stat_bytes_used / ceph_osd_stat_bytes)) >= 0.80
+              (ceph_osd_metadata{%(cephExporterSelector)s} * on (%(cephDaemonAggregationLabels)s) group_right(device_class,hostname) (ceph_osd_stat_bytes_used{%(cephExporterSelector)s} / ceph_osd_stat_bytes{%(cephExporterSelector)s})) >= 0.80
             ||| % $._config,
             'for': $._config.osdUtilizationAlertTime,
             labels: {
@@ -23,7 +23,7 @@
           {
             alert: 'CephOSDFlapping',
             expr: |||
-              changes(ceph_osd_up[5m]) >= 10
+              changes(ceph_osd_up{%(cephExporterSelector)s}[5m]) >= 10
             ||| % $._config,
             'for': $._config.osdFlapAlertTime,
             labels: {
@@ -39,7 +39,7 @@
           {
             alert: 'CephOSDNearFull',
             expr: |||
-              (ceph_osd_metadata * on (ceph_daemon) group_right(device_class,hostname) (ceph_osd_stat_bytes_used / ceph_osd_stat_bytes)) >= 0.75
+              (ceph_osd_metadata{%(cephExporterSelector)s} * on (%(cephDaemonAggregationLabels)s) group_right(device_class,hostname) (ceph_osd_stat_bytes_used{%(cephExporterSelector)s} / ceph_osd_stat_bytes{%(cephExporterSelector)s})) >= 0.75
             ||| % $._config,
             'for': $._config.osdUtilizationAlertTime,
             labels: {
@@ -55,7 +55,7 @@
           {
             alert: 'CephOSDDiskNotResponding',
             expr: |||
-              label_replace((ceph_osd_in == 1 and ceph_osd_up == 0),"disk","$1","ceph_daemon","osd.(.*)") + on(ceph_daemon) group_left(host, device) label_replace(ceph_disk_occupation,"host","$1","exported_instance","(.*)")
+              label_replace((ceph_osd_in{%(cephExporterSelector)s} == 1 and ceph_osd_up{%(cephExporterSelector)s} == 0),"disk","$1","ceph_daemon","osd.(.*)") + on(%(cephDaemonAggregationLabels)s) group_left(host, device) label_replace(ceph_disk_occupation{%(cephExporterSelector)s},"host","$1","%(diskOccuptationSourceInstanceLabel)s","(.*)")
             ||| % $._config,
             'for': $._config.osdDiskNotRespondingTime,
             labels: {
@@ -71,7 +71,7 @@
           {
             alert: 'CephOSDDiskUnavailable',
             expr: |||
-              label_replace((ceph_osd_in == 0 and ceph_osd_up == 0),"disk","$1","ceph_daemon","osd.(.*)") + on(ceph_daemon) group_left(host, device) label_replace(ceph_disk_occupation,"host","$1","exported_instance","(.*)")
+              label_replace((ceph_osd_in{%(cephExporterSelector)s} == 0 and ceph_osd_up{%(cephExporterSelector)s} == 0),"disk","$1","ceph_daemon","osd.(.*)") + on(%(cephDaemonAggregationLabels)s) group_left(host, device) label_replace(ceph_disk_occupation{%(cephExporterSelector)s},"host","$1","%(diskOccuptationSourceInstanceLabel)s","(.*)")
             ||| % $._config,
             'for': $._config.osdDiskUnavailableTime,
             labels: {
@@ -87,7 +87,7 @@
           {
             alert: 'CephOSDSlowOps',
             expr: |||
-              ceph_healthcheck_slow_ops > 0
+              ceph_healthcheck_slow_ops{%(cephExporterSelector)s} > 0
             ||| % $._config,
             'for': $._config.osdSlowOpsTime,
             labels: {
@@ -103,7 +103,7 @@
           {
             alert: 'CephDataRecoveryTakingTooLong',
             expr: |||
-              ceph_pg_undersized > 0
+              ceph_pg_undersized{%(cephExporterSelector)s} > 0
             ||| % $._config,
             'for': $._config.osdDataRecoveryAlertTime,
             labels: {
@@ -119,7 +119,7 @@
           {
             alert: 'CephPGRepairTakingTooLong',
             expr: |||
-              ceph_pg_inconsistent > 0
+              ceph_pg_inconsistent{%(cephExporterSelector)s} > 0
             ||| % $._config,
             'for': $._config.PGRepairAlertTime,
             labels: {

@@ -7,13 +7,13 @@
           {
             record: 'cluster:ceph_node_down:join_kube',
             expr: |||
-              kube_node_status_condition{condition="Ready",job="kube-state-metrics",status="true"} * on (node) group_right() max(label_replace(ceph_disk_occupation{%(cephExporterSelector)s},"node","$1","exported_instance","(.*)")) by (node, namespace)
+              kube_node_status_condition{condition="Ready",job="kube-state-metrics",status="true"} * on (node) group_right() max(label_replace(ceph_disk_occupation{%(cephExporterSelector)s},"node","$1","%(diskOccuptationSourceInstanceLabel)s","(.*)")) by (node, namespace)
             ||| % $._config,
           },
           {
             record: 'cluster:ceph_disk_latency:join_ceph_node_disk_irate1m',
             expr: |||
-              avg(topk by (ceph_daemon) (1, label_replace(label_replace(ceph_disk_occupation{job="rook-ceph-mgr"}, "instance", "$1", "exported_instance", "(.*)"), "device", "$1", "device", "/dev/(.*)")) * on(instance, device) group_right(ceph_daemon) topk by (instance,device) (1,(irate(node_disk_read_time_seconds_total[1m]) + irate(node_disk_write_time_seconds_total[1m]) / (clamp_min(irate(node_disk_reads_completed_total[1m]), 1) + irate(node_disk_writes_completed_total[1m])))))
+              avg(topk by (ceph_daemon) (1, label_replace(label_replace(ceph_disk_occupation{job="rook-ceph-mgr"}, "instance", "$1", "%(diskOccuptationSourceInstanceLabel)s", "(.*)"), "device", "$1", "device", "/dev/(.*)")) * on(instance, device) group_right(ceph_daemon) topk by (instance,device) (1,(irate(node_disk_read_time_seconds_total[1m]) + irate(node_disk_write_time_seconds_total[1m]) / (clamp_min(irate(node_disk_reads_completed_total[1m]), 1) + irate(node_disk_writes_completed_total[1m])))))
             ||| % $._config,
           },
         ],

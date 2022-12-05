@@ -7,7 +7,7 @@
           {
             alert: 'CephClusterNearFull',
             expr: |||
-              ceph_cluster_total_used_raw_bytes / ceph_cluster_total_bytes > 0.75
+              ceph_cluster_total_used_raw_bytes{%(cephExporterSelector)s} / ceph_cluster_total_bytes{%(cephExporterSelector)s} > 0.75
             ||| % $._config,
             'for': $._config.clusterUtilizationAlertTime,
             labels: {
@@ -23,7 +23,7 @@
           {
             alert: 'CephClusterCriticallyFull',
             expr: |||
-              ceph_cluster_total_used_raw_bytes / ceph_cluster_total_bytes > 0.80
+              ceph_cluster_total_used_raw_bytes{%(cephExporterSelector)s} / ceph_cluster_total_bytes{%(cephExporterSelector)s} > 0.80
             ||| % $._config,
             'for': $._config.clusterUtilizationAlertTime,
             labels: {
@@ -39,7 +39,7 @@
           {
             alert: 'CephClusterReadOnly',
             expr: |||
-              ceph_cluster_total_used_raw_bytes / ceph_cluster_total_bytes >= 0.85
+              ceph_cluster_total_used_raw_bytes{%(cephExporterSelector)s} / ceph_cluster_total_bytes{%(cephExporterSelector)s} >= 0.85
             ||| % $._config,
             'for': $._config.clusterReadOnlyAlertTime,
             labels: {
