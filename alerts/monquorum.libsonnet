@@ -16,8 +16,6 @@
             annotations: {
               message: 'Storage quorum at risk',
               description: 'Storage cluster quorum is low. Contact Support.',
-              storage_type: $._config.storageType,
-              severity_level: 'error',
             },
           },
           (if $._config.isKubernetesCephDeployment then
@@ -33,8 +31,6 @@
             annotations: {
               message: 'Storage quorum is lost',
               description: 'Storage cluster quorum is lost. Contact Support.',
-              storage_type: $._config.storageType,
-              severity_level: 'critical',
             },
           }),
           {
@@ -49,8 +45,6 @@
             annotations: {
               message: 'Storage Cluster has seen many leader changes recently.',
               description: 'Ceph Monitor {{ $labels.ceph_daemon }} on host {{ $labels.hostname }} has seen {{ $value | printf "%.2f" }} leader changes per minute recently.',
-              storage_type: $._config.storageType,
-              severity_level: 'warning',
             },
           },
         ]),

@@ -16,8 +16,6 @@
             annotations: {
               message: 'Back-end storage device is critically full.',
               description: 'Utilization of storage device {{ $labels.ceph_daemon }} of device_class type {{$labels.device_class}} has crossed 80% on host {{ $labels.hostname }}. Immediately free up some space or add capacity of type {{$labels.device_class}}.',
-              storage_type: $._config.storageType,
-              severity_level: 'error',
             },
           },
           {
@@ -32,8 +30,6 @@
             annotations: {
               message: 'Ceph storage osd flapping.',
               description: 'Storage daemon {{ $labels.ceph_daemon }} has restarted 5 times in last 5 minutes. Please check the pod events or ceph status to find out the cause.',
-              storage_type: $._config.storageType,
-              severity_level: 'error',
             },
           },
           {
@@ -48,8 +44,6 @@
             annotations: {
               message: 'Back-end storage device is nearing full.',
               description: 'Utilization of storage device {{ $labels.ceph_daemon }} of device_class type {{$labels.device_class}} has crossed 75% on host {{ $labels.hostname }}. Immediately free up some space or add capacity of type {{$labels.device_class}}.',
-              storage_type: $._config.storageType,
-              severity_level: 'warning',
             },
           },
           {
@@ -64,8 +58,6 @@
             annotations: {
               message: 'Disk not responding',
               description: 'Disk device {{ $labels.device }} not responding, on host {{ $labels.host }}.',
-              storage_type: $._config.storageType,
-              severity_level: 'error',
             },
           },
           {
@@ -80,8 +72,6 @@
             annotations: {
               message: 'Disk not accessible',
               description: 'Disk device {{ $labels.device }} not accessible on host {{ $labels.host }}.',
-              storage_type: $._config.storageType,
-              severity_level: 'error',
             },
           },
           {
@@ -96,8 +86,6 @@
             annotations: {
               message: 'OSD requests are taking too long to process.',
               description: '{{ $value }} Ceph OSD requests are taking too long to process. Please check ceph status to find out the cause.',
-              storage_type: $._config.storageType,
-              severity_level: 'warning',
             },
           },
           {
@@ -112,8 +100,6 @@
             annotations: {
               message: 'Data recovery is slow',
               description: 'Data recovery has been active for too long. Contact Support.',
-              storage_type: $._config.storageType,
-              severity_level: 'warning',
             },
           },
           {
@@ -128,8 +114,6 @@
             annotations: {
               message: 'Self heal problems detected',
               description: 'Self heal operations taking too long. Contact Support.',
-              storage_type: $._config.storageType,
-              severity_level: 'warning',
             },
           },
         ],

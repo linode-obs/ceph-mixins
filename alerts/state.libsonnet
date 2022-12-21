@@ -16,8 +16,6 @@
             annotations: {
               message: 'Storage cluster is in error state',
               description: 'Storage cluster is in error state for more than %s.' % $._config.clusterStateAlertTime,
-              storage_type: $._config.storageType,
-              severity_level: 'error',
             },
           },
           {
@@ -32,8 +30,6 @@
             annotations: {
               message: 'Storage cluster is in degraded state',
               description: 'Storage cluster is in warning state for more than %s.' % $._config.clusterStateAlertTime,
-              storage_type: $._config.storageType,
-              severity_level: 'warning',
             },
           },
           {
@@ -48,8 +44,6 @@
             annotations: {
               message: 'There are multiple versions of storage services running.',
               description: 'There are {{ $value }} different versions of Ceph OSD components running.',
-              storage_type: $._config.storageType,
-              severity_level: 'warning',
             },
           },
           {
@@ -64,8 +58,6 @@
             annotations: {
               message: 'There are multiple versions of storage services running.',
               description: 'There are {{ $value }} different versions of Ceph Mon components running.',
-              storage_type: $._config.storageType,
-              severity_level: 'warning',
             },
           },
         ],

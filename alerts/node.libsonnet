@@ -17,8 +17,6 @@
             annotations: {
               message: 'Storage node {{ $labels.node }} went down',
               description: 'Storage node {{ $labels.node }} went down. Please check the node immediately.',
-              storage_type: $._config.storageType,
-              severity_level: 'error',
             },
           }),
         ]),
