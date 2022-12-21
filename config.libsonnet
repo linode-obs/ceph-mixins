@@ -6,7 +6,7 @@
 
     isKubernetesCephDeployment: true,
 
-    // Labels to use by default when aggregating across ceph metrics 
+    // Labels to use by default when aggregating across ceph metrics
     cephAggregationLabels: 'namespace',
 
     // When aggregating information per ceph cluster, how should they be grouped?

@@ -19,20 +19,20 @@
             },
           },
           (if $._config.isKubernetesCephDeployment then
-          {
-            alert: 'CephMonQuorumLost',
-            expr: |||
-              count(kube_pod_status_phase{pod=~"rook-ceph-mon-.*", phase=~"Running|running"} == 1) by (%(cephAggregationLabels)s) < 2
-            ||| % $._config,
-            'for': $._config.monQuorumLostTime,
-            labels: {
-              severity: 'critical',
-            },
-            annotations: {
-              summary: 'Storage quorum is lost',
-              description: 'Storage cluster quorum is lost. Contact Support.',
-            },
-          }),
+             {
+               alert: 'CephMonQuorumLost',
+               expr: |||
+                 count(kube_pod_status_phase{pod=~"rook-ceph-mon-.*", phase=~"Running|running"} == 1) by (%(cephAggregationLabels)s) < 2
+               ||| % $._config,
+               'for': $._config.monQuorumLostTime,
+               labels: {
+                 severity: 'critical',
+               },
+               annotations: {
+                 summary: 'Storage quorum is lost',
+                 description: 'Storage cluster quorum is lost. Contact Support.',
+               },
+             }),
           {
             alert: 'CephMonHighNumberOfLeaderChanges',
             expr: |||

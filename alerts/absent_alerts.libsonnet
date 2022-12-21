@@ -6,7 +6,7 @@
         rules: std.prune([
           {
             alert: 'CephMgrIsAbsent',
-            local mgrAbsentQueryBase = "(up{%(cephExporterSelector)s} == 0 or absent(up{%(cephExporterSelector)s}))" % $._config,
+            local mgrAbsentQueryBase = '(up{%(cephExporterSelector)s} == 0 or absent(up{%(cephExporterSelector)s}))' % $._config,
             local mgrAbsentQuery = if $._config.isKubernetesCephDeployment then 'label_replace(%(mgrAbsentQueryBase)s, "namespace", "openshift-storage", "", "")' % mgrAbsentQueryBase else mgrAbsentQueryBase,
             expr: |||
               %(mgrAbsentQuery)s
@@ -21,20 +21,20 @@
             },
           },
           (if $._config.isKubernetesCephDeployment then
-          {
-            alert: 'CephMgrIsMissingReplicas',
-            expr: |||
-              sum(kube_deployment_spec_replicas{deployment=~"rook-ceph-mgr-.*"}) by (%(cephAggregationLabels)s) < %(cephMgrCount)d
-            ||| % $._config,
-            'for': $._config.mgrMissingReplicasAlertTime,
-            labels: {
-              severity: 'warning',
-            },
-            annotations: {
-              summary: "Storage metrics collector service doesn't have required no of replicas.",
-              description: 'Ceph Manager is missing replicas.',
-            },
-          }),
+             {
+               alert: 'CephMgrIsMissingReplicas',
+               expr: |||
+                 sum(kube_deployment_spec_replicas{deployment=~"rook-ceph-mgr-.*"}) by (%(cephAggregationLabels)s) < %(cephMgrCount)d
+               ||| % $._config,
+               'for': $._config.mgrMissingReplicasAlertTime,
+               labels: {
+                 severity: 'warning',
+               },
+               annotations: {
+                 summary: "Storage metrics collector service doesn't have required no of replicas.",
+                 description: 'Ceph Manager is missing replicas.',
+               },
+             }),
         ]),
       },
       (if $._config.cephMdsCount > 0 then
