@@ -14,7 +14,7 @@
               severity: 'warning',
             },
             annotations: {
-              message: 'PVC {{ $labels.persistentvolumeclaim }} is nearing full. Data deletion or PVC expansion is required.',
+              summary: 'PVC {{ $labels.persistentvolumeclaim }} is nearing full. Data deletion or PVC expansion is required.',
               description: 'PVC {{ $labels.persistentvolumeclaim }} utilization has crossed 75%. Free up some space or expand the PVC.',
             },
           },
@@ -28,7 +28,7 @@
               severity: 'critical',
             },
             annotations: {
-              message: 'PVC {{ $labels.persistentvolumeclaim }} is critically full. Data deletion or PVC expansion is required.',
+              summary: 'PVC {{ $labels.persistentvolumeclaim }} is critically full. Data deletion or PVC expansion is required.',
               description: 'PVC {{ $labels.persistentvolumeclaim }} utilization has crossed 85%. Free up some space or expand the PVC immediately.',
             },
           },

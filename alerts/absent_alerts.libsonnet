@@ -16,7 +16,7 @@
               severity: 'critical',
             },
             annotations: {
-              message: 'Storage metrics collector service not available anymore.',
+              summary: 'Storage metrics collector service not available anymore.',
               description: 'Ceph Manager has disappeared from Prometheus target discovery.',
             },
           },
@@ -31,7 +31,7 @@
               severity: 'warning',
             },
             annotations: {
-              message: "Storage metrics collector service doesn't have required no of replicas.",
+              summary: "Storage metrics collector service doesn't have required no of replicas.",
               description: 'Ceph Manager is missing replicas.',
             },
           }),
@@ -50,7 +50,7 @@
               severity: 'warning',
             },
             annotations: {
-              message: 'Insufficient replicas for storage metadata service.',
+              summary: 'Insufficient replicas for storage metadata service.',
               description: 'Minimum required replicas for storage metadata service not available. Might affect the working of storage cluster.',
             },
           },

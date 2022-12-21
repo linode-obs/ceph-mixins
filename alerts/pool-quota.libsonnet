@@ -14,7 +14,7 @@
               severity: 'warning',
             },
             annotations: {
-              message: 'Storage pool quota(bytes) is near exhaustion.',
+              summary: 'Storage pool quota(bytes) is near exhaustion.',
               description: 'Storage pool {{ $labels.name }} quota usage has crossed 70%.',
             },
           },
@@ -28,7 +28,7 @@
               severity: 'critical',
             },
             annotations: {
-              message: 'Storage pool quota(bytes) is critically exhausted.',
+              summary: 'Storage pool quota(bytes) is critically exhausted.',
               description: 'Storage pool {{ $labels.name }} quota usage has crossed 90%.',
             },
           },

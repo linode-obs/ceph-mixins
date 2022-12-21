@@ -15,7 +15,7 @@
               severity: 'critical',
             },
             annotations: {
-              message: 'Storage node {{ $labels.node }} went down',
+              summary: 'Storage node {{ $labels.node }} went down',
               description: 'Storage node {{ $labels.node }} went down. Please check the node immediately.',
             },
           }),
