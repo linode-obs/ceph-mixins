@@ -29,7 +29,7 @@
             },
             annotations: {
               summary: 'Storage cluster is in degraded state',
-              description: 'Storage cluster is in warning state for more than %s.' % $._config.clusterStateAlertTime,
+              description: 'Storage cluster is in warning state for more than %s.' % $._config.clusterWarningStateAlertTime,
             },
           },
           {
