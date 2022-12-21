@@ -1,6 +1,6 @@
 {
   prometheusAlerts+:: {
-    groups+: [
+    groups+: std.prune([
       {
         name: 'ceph-mgr-status',
         rules: std.prune([
@@ -37,25 +37,26 @@
           }),
         ]),
       },
-      {
-        name: 'ceph-mds-status',
-        rules: [
-          {
-            alert: 'CephMdsMissingReplicas',
-            expr: |||
-              sum(ceph_mds_metadata{%(cephExporterSelector)s} == 1) by (%(cephAggregationLabels)s) < %(cephMdsCount)d
-            ||| % $._config,
-            'for': $._config.mdsMissingReplicasAlertTime,
-            labels: {
-              severity: 'warning',
-            },
-            annotations: {
-              summary: 'Insufficient replicas for storage metadata service.',
-              description: 'Minimum required replicas for storage metadata service not available. Might affect the working of storage cluster.',
-            },
-          },
-        ],
-      },
-    ],
+      (if $._config.cephMdsCount > 0 then
+         {
+           name: 'ceph-mds-status',
+           rules: [
+             {
+               alert: 'CephMdsMissingReplicas',
+               expr: |||
+                 sum(ceph_mds_metadata{%(cephExporterSelector)s} == 1) by (%(cephAggregationLabels)s) < %(cephMdsCount)d
+               ||| % $._config,
+               'for': $._config.mdsMissingReplicasAlertTime,
+               labels: {
+                 severity: 'warning',
+               },
+               annotations: {
+                 summary: 'Insufficient replicas for storage metadata service.',
+                 description: 'Minimum required replicas for storage metadata service not available. Might affect the working of storage cluster.',
+               },
+             },
+           ],
+         }),
+    ]),
   },
 }
