@@ -3,7 +3,7 @@
     groups+: [
       {
         name: 'ceph-mgr-status',
-        rules: [
+        rules: std.prune([
           {
             alert: 'CephMgrIsAbsent',
             local mgrAbsentQueryBase = "(up{%(cephExporterSelector)s} == 0 or absent(up{%(cephExporterSelector)s}))" % $._config,
@@ -39,7 +39,7 @@
               severity_level: 'warning',
             },
           }),
-        ],
+        ]),
       },
       {
         name: 'ceph-mds-status',

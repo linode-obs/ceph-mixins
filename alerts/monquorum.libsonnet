@@ -3,7 +3,7 @@
     groups+: [
       {
         name: 'quorum-alert.rules',
-        rules: [
+        rules: std.prune([
           {
             alert: 'CephMonQuorumAtRisk',
             expr: |||
@@ -53,7 +53,7 @@
               severity_level: 'warning',
             },
           },
-        ],
+        ]),
       },
     ],
   },

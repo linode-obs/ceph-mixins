@@ -3,7 +3,7 @@
     groups+: [
       {
         name: 'ceph-node-alert.rules',
-        rules: [
+        rules: std.prune([
           (if $._config.isKubernetesCephDeployment then
           {
             alert: 'CephNodeDown',
@@ -21,7 +21,7 @@
               severity_level: 'error',
             },
           }),
-        ],
+        ]),
       },
     ],
   },
