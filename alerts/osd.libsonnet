@@ -99,7 +99,7 @@
             },
             annotations: {
               summary: 'Data recovery is slow',
-              description: 'Data recovery has been active for too long. Contact Support.',
+              description: 'The number of undersized placement groups has been non-zero for > %(osdDataRecoveryAlertTime)s.' % $._config,
             },
           },
           {
@@ -113,7 +113,7 @@
             },
             annotations: {
               summary: 'Self heal problems detected',
-              description: 'Self heal operations taking too long. Contact Support.',
+              description: 'Self heal operations taking too long.',
             },
           },
         ],
