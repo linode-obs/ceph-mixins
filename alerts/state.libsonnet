@@ -39,7 +39,7 @@
             ||| % $._config,
             'for': $._config.clusterVersionAlertTime,
             labels: {
-              severity: 'warning',
+              severity: 'info',
             },
             annotations: {
               summary: 'There are multiple versions of storage services running.',
