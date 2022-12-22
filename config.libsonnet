@@ -4,7 +4,11 @@
     // cephExporterSelector: 'job="rook-ceph-mgr"',
     cephExporterSelector: 'job="ceph_exporter",component="objectstorage",environment="production"',
 
+    // Adds additional rules specific to Kubernetes
     isKubernetesCephDeployment: true,
+
+    // Some alerts depend on metrics not present in all Ceph versions
+    cephMajorVersion: 15,
 
     // Labels to use by default when aggregating across ceph metrics
     cephAggregationLabels: 'namespace',
@@ -31,6 +35,7 @@
     clusterUtilizationAlertTime: '5s',
     clusterReadOnlyAlertTime: '0s',
     poolQuotaUtilizationAlertTime: '1m',
+    poolNearFullAlertTime: '15m',
     monQuorumAlertTime: '15m',
     monQuorumLostTime: '5m',
     monQuorumLeaderChangesAlertTime: '5m',
@@ -54,9 +59,11 @@
     // Configurable thresholds for alerts
     osdFlapAlertThreshold: 10,
     PGInactiveThreshold: 0.01,
+    PoolNearFullThreshold: 0.9,
 
     // Configurable filters for alerts
     PGInactiveFilter: 'name=~".+"',
+    PoolNearFullFilter: 'name=~".+"',
 
     // Constants
     storageType: 'ceph',
