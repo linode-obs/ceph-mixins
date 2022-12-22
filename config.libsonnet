@@ -50,6 +50,9 @@
     mgrIsAbsentAlertTime: '5m',
     mdsMissingReplicasAlertTime: '5m',
 
+    // Configurable thresholds for alerts
+    osdFlapAlertThreshold: 10,
+
     // Constants
     storageType: 'ceph',
 

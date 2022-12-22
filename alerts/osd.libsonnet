@@ -21,7 +21,7 @@
           {
             alert: 'CephOSDFlapping',
             expr: |||
-              changes(ceph_osd_up{%(cephExporterSelector)s}[5m]) >= 10
+              changes(ceph_osd_up{%(cephExporterSelector)s}[5m]) >= %(osdFlapAlertThreshold)s
             ||| % $._config,
             'for': $._config.osdFlapAlertTime,
             labels: {
@@ -29,7 +29,7 @@
             },
             annotations: {
               summary: 'Ceph storage osd flapping.',
-              description: 'Storage daemon {{ $labels.ceph_daemon }} has restarted 5 times in last 5 minutes. Please check the pod events or ceph status to find out the cause.',
+              description: 'Storage daemon {{ $labels.ceph_daemon }} has restarted {{ query "floor(vector(%(osdFlapAlertThreshold)s / 2))" | first | value }} times in last 5m.' % $._config,
             },
           },
           {
