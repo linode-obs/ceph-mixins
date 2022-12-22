@@ -6,7 +6,7 @@
         rules: std.prune([
           {
             alert: 'CephMgrIsAbsent',
-            local mgrAbsentQueryBase = '(up{%(cephExporterSelector)s} == 0 or absent(up{%(cephExporterSelector)s}))' % $._config,
+            local mgrAbsentQueryBase = '(absent(ceph_mgr_status{%(cephExporterSelector)s} == 1))' % $._config,
             local mgrAbsentQuery = if $._config.isKubernetesCephDeployment then 'label_replace(%(mgrAbsentQueryBase)s, "namespace", "openshift-storage", "", "")' % mgrAbsentQueryBase else mgrAbsentQueryBase,
             expr: |||
               %(mgrAbsentQuery)s
@@ -16,8 +16,8 @@
               severity: 'critical',
             },
             annotations: {
-              summary: 'Storage metrics collector service not available anymore.',
-              description: 'Ceph Manager has disappeared from Prometheus target discovery.',
+              description: 'No Ceph managers active',
+              summary: 'No status 1 Ceph Manager matching "{%(cephExporterSelector)s}"' % $._config,
             },
           },
           (if $._config.isKubernetesCephDeployment then
