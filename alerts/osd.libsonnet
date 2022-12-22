@@ -116,6 +116,22 @@
               description: 'Self heal operations taking too long.',
             },
           },
+          {
+            alert: 'CephPGInactive',
+            expr: |||
+              1 - (ceph_pg_active{%(cephExporterSelector)s} / ceph_pg_total{%(cephExporterSelector)s})
+              * ignoring(name) group_left(name)
+              ceph_pool_metadata{%(PGInactiveFilter)s} > %(PGInactiveThreshold)s
+            ||| % $._config,
+            'for': $._config.PGInactiveAlertTime,
+            labels: {
+              severity: 'warning',
+            },
+            annotations: {
+              summary: 'Inactive PGs in storage pool {{ $labels.name }}',
+              description: '{{ $value | humanizePercentage }} of PGs in pool {{ $labels.name }} are inactive.',
+            },
+          },
         ],
       },
     ],

@@ -45,6 +45,7 @@
     osdSlowOpsTime: '30s',
     osdUtilizationAlertTime: '40s',
     PGRepairAlertTime: '1h',
+    PGInactiveAlertTime: '15m',
     pvcUtilizationAlertTime: '5s',
     mgrMissingReplicasAlertTime: '5m',
     mgrIsAbsentAlertTime: '5m',
@@ -52,6 +53,10 @@
 
     // Configurable thresholds for alerts
     osdFlapAlertThreshold: 10,
+    PGInactiveThreshold: 0.01,
+
+    // Configurable filters for alerts
+    PGInactiveFilter: 'name=~".+"',
 
     // Constants
     storageType: 'ceph',
