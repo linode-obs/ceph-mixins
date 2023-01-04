@@ -15,7 +15,7 @@
             },
             annotations: {
               summary: 'Storage quorum at risk',
-              description: 'Storage cluster quorum is low. Contact Support.',
+              description: 'Storage cluster quorum is low.',
             },
           },
           (if $._config.isKubernetesCephDeployment then
@@ -30,7 +30,7 @@
                },
                annotations: {
                  summary: 'Storage quorum is lost',
-                 description: 'Storage cluster quorum is lost. Contact Support.',
+                 description: 'Storage cluster quorum is lost.',
                },
              }),
           {
