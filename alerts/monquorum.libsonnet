@@ -7,7 +7,8 @@
           {
             alert: 'CephMonQuorumAtRisk',
             expr: |||
-              count(ceph_mon_quorum_status{%(cephExporterSelector)s} == 1) by (%(cephAggregationLabels)s) <= (floor(count(ceph_mon_metadata{%(cephExporterSelector)s}) by (%(cephAggregationLabels)s) / 2) + 1)
+              count(ceph_mon_quorum_status{%(cephExporterSelector)s} == 1) by (%(cephAggregationLabels)s) 
+              <= (floor(count(ceph_mon_metadata{%(cephExporterSelector)s}) by (%(cephAggregationLabels)s) / 2) + 1)
             ||| % $._config,
             'for': $._config.monQuorumAlertTime,
             labels: {
@@ -36,7 +37,8 @@
           {
             alert: 'CephMonHighNumberOfLeaderChanges',
             expr: |||
-              (ceph_mon_metadata{%(cephExporterSelector)s} * on (ceph_daemon) group_left() (rate(ceph_mon_num_elections{%(cephExporterSelector)s}[5m]) * 60)) > 0.95
+              (ceph_mon_metadata{%(cephExporterSelector)s} * on (ceph_daemon)
+              group_left() (rate(ceph_mon_num_elections{%(cephExporterSelector)s}[5m]) * 60)) > 0.95
             ||| % $._config,
             'for': $._config.monQuorumLeaderChangesAlertTime,
             labels: {
