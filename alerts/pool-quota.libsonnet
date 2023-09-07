@@ -7,7 +7,7 @@
           {
             alert: 'CephPoolQuotaBytesNearExhaustion',
             expr: |||
-              (ceph_pool_stored_raw * on (pool_id) group_left(name)ceph_pool_metadata) / ((ceph_pool_quota_bytes * on (pool_id) group_left(name)ceph_pool_metadata) > 0) > 0.70
+              (ceph_pool_stored_raw * on (pool_id, cluster) group_left(name)ceph_pool_metadata) / ((ceph_pool_quota_bytes * on (pool_id, cluster) group_left(name)ceph_pool_metadata) > 0) > 0.70
             |||,
             'for': $._config.poolQuotaUtilizationAlertTime,
             labels: {
@@ -23,7 +23,7 @@
           {
             alert: 'CephPoolQuotaBytesCriticallyExhausted',
             expr: |||
-              (ceph_pool_stored_raw * on (pool_id) group_left(name)ceph_pool_metadata) / ((ceph_pool_quota_bytes * on (pool_id) group_left(name)ceph_pool_metadata) > 0) > 0.90
+              (ceph_pool_stored_raw * on (pool_id, cluster) group_left(name)ceph_pool_metadata) / ((ceph_pool_quota_bytes * on (pool_id, cluster) group_left(name)ceph_pool_metadata) > 0) > 0.90
             |||,
             'for': $._config.poolQuotaUtilizationAlertTime,
             labels: {
