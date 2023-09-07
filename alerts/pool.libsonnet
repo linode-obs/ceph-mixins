@@ -15,7 +15,7 @@
                 + 
                 ceph_pool_max_avail{%(cephExporterSelector)s}
               )
-              * on(pool_id) group_right
+              * on(pool_id, cluster) group_right
               ceph_pool_metadata{%(PoolNearFullFilter)s} > %(PoolNearFullThreshold)s
             ||| % $._config,
             'for': $._config.poolNearFullAlertTime,
